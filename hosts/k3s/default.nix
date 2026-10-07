@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./../common.nix
+    ../../modules/nixos/common.nix
   ];
 
   networking.firewall.allowedTCPPorts = [

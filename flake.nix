@@ -12,11 +12,11 @@
   outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }:
       let
-        nixosSystemFor = system: module:
+        nixosSystemFor = system: host:
           nixpkgs.lib.nixosSystem {
             inherit system;
             pkgs = withSystem system ({ pkgs, ... }: pkgs);
-            modules = [ module ];
+            modules = [ host ];
           };
 
         vmApp = name: {
@@ -30,15 +30,13 @@
 
         flake = {
           nixosModules = {
-            vm = ./modules/nixos/vm;
-            k3s = ./modules/nixos/k3s;
-            xfce = ./modules/nixos/xfce;
+            common = ./modules/nixos/common.nix;
           };
 
           nixosConfigurations = {
-            vm = nixosSystemFor "x86_64-linux" self.nixosModules.vm;
-            k3s = nixosSystemFor "x86_64-linux" self.nixosModules.k3s;
-            xfce = nixosSystemFor "x86_64-linux" self.nixosModules.xfce;
+            vm = nixosSystemFor "x86_64-linux" ./hosts/vm;
+            k3s = nixosSystemFor "x86_64-linux" ./hosts/k3s;
+            xfce = nixosSystemFor "x86_64-linux" ./hosts/xfce;
           };
         };
 
