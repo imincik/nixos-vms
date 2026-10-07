@@ -1,11 +1,12 @@
 # Test NixOS VMs
 
-## VM list
+## VMs list
 
 * vm     - bare bones VM
 * k3s    - lightweight Kubernetes (k3s)
 * xfce   - XFCE desktop
 
+Run `nix flake show` to show outputs provided by this repository.
 
 ## Usage
 
